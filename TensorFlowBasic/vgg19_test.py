@@ -118,7 +118,7 @@ def loadModel():
 
 
 def pre_input():
-    path = 'dog.jpeg'
+    path = '1.jpeg'
     cv2.imread(path)
     img = cv2.imread(path)
     imgMean = np.array([104, 117, 124], np.float32)
@@ -147,11 +147,14 @@ with tf.Session() as sess:
 
     startTime = time.clock()
 
-    maxx = np.argmax(sess.run(softmax, feed_dict={x: x_input}))
+    allPoints = sess.run(softmax, feed_dict={x: x_input})
+    maxx = np.argmax(allPoints)
+
     res = caffe_classes.class_names[maxx]
+    point = allPoints[0][maxx]
 
     endTime = time.clock()
 
     print("Used Time is %f"%(endTime - startTime))
 
-    print(res)
+    print(res, point)

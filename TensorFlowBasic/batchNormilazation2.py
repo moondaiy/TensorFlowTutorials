@@ -122,7 +122,7 @@ Ylogits = tf.matmul(Y4, W5) + B5
 Y = tf.nn.softmax(Ylogits)
 
 
-#把多个需要操作的op 进行打包处理, 最终只要进行一次 sess.run 就可以全体进行更新啦
+# 把多个需要操作的op 进行打包处理, 最终只要进行一次 sess.run 就可以全体进行更新啦
 update_ema = tf.group(update_ema1, update_ema2, update_ema3, update_ema4)
 
 # Y1l = tf.matmul(XX, W1)
@@ -156,7 +156,9 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 #这个学习率调整是很重要的
 lr = 0.0001 +  tf.train.exponential_decay(0.03, iter, 1000, 1/math.e)
-# lr = 0.001
+# lr = 0.1
+
+#如果lr为定值的话(0.1), 有BN层训练还是可以继续的,但是无BN层 则训练不可行,则说明了 BN层的作用
 train_step = tf.train.AdamOptimizer(lr).minimize(cross_entropy)
 
 init = tf.global_variables_initializer()

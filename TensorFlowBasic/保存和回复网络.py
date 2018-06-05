@@ -15,7 +15,7 @@ init = tf.global_variables_initializer()
 #[saveTensor1, saveTensor2] 表示需要保存的tensor的个数,没有对saveTensor3 进行保存
 saver = tf.train.Saver([saveTensor1, saveTensor2], max_to_keep=4)
 
-isTrain = False
+isTrain = True
 
 with tf.Session() as sess:
 

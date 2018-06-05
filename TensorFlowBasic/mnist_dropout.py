@@ -136,7 +136,7 @@ def main(_):
         else:  # tensorflow version >= 0.12
             writer = tf.summary.FileWriter("logs/", sess.graph)
 
-        for i in range(50000):
+        for i in range(5000):
 
             batch_xs, batch_ys = mnist.train.next_batch(100)  # 每次只取100张图片，免得数据太多训练太慢。#在每次循环中我们都随机抓取训练数据中 100 个数据点
 

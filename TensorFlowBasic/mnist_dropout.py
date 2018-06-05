@@ -16,28 +16,28 @@ mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
 
 def addLayer(input, inputSize, outputSize, keep_prob, activationFun=None,nameScope="Layer"):
 
-    with tf.name_scope(nameScope):
+    with tf.variable_scope(nameScope):
 
-        with tf.name_scope("weight"):
+        with tf.variable_scope("weight"):
 
             weight = tf.Variable(initial_value=tf.random_normal([inputSize, outputSize], dtype=tf.float32), name="weight")
             tf.summary.histogram('weight', weight)
 
-        with tf.name_scope("bias"):
+        with tf.variable_scope("bias"):
 
             #关于bias的shape
             bias = tf.Variable(initial_value=tf.zeros([outputSize], dtype=tf.float32),name="bias")
             tf.summary.histogram('bias', bias)
 
-        with tf.name_scope("calcUnit"):
+        with tf.variable_scope("calcUnit"):
 
             Wx_plus_b = tf.add(tf.matmul(input, weight), bias)
 
-        with tf.name_scope("dropout"):
+        with tf.variable_scope("dropout"):
 
             Wx_plus_b = tf.nn.dropout(Wx_plus_b, keep_prob)
 
-        with tf.name_scope("activation_function"):
+        with tf.variable_scope("activation_function"):
 
             if activationFun is not None:
 
@@ -78,11 +78,11 @@ def generateNet(inputs):
 
     # labels = tf.Print(labels, [labels], message="label info", summarize=1000)
 
-    outLayer1 = addLayer(input, 28 * 28, 20, keep_prob, activationFun=tf.nn.relu, nameScope="Layer_Input")
+    outLayer1 = addLayer(input, 28 * 28, 20, keep_prob, activationFun=tf.nn.relu, nameScope="LayerInput")
 
     # outLayer2 = addLayer(outLayer1, 20, 20, keep_prob, activationFun=tf.nn.relu, nameScope="Layer_Hidden")
 
-    prediction = addLayer(outLayer1, 20, 10, keep_prob, activationFun=None, nameScope="Layer_Output")
+    prediction = addLayer(outLayer1, 20, 10, keep_prob, activationFun=None, nameScope="LayerOutput")
 
 
     loss = tf.nn.softmax_cross_entropy_with_logits(logits=prediction,labels=labels)
@@ -126,6 +126,8 @@ def main(_):
 
     merged = tf.summary.merge_all()
 
+    saver = tf.train.Saver(max_to_keep=4)
+
     with tf.Session() as sess:
 
         sess.run(init)
@@ -150,6 +152,8 @@ def main(_):
             if i % 50 == 0:
                 # 注意，这里改成了测试集
                 print(computeAccuracy(mnist.test.images, mnist.test.labels , prediction , sess))
+
+        save_path = saver.save(sess, "my_net/save_net.ckpt")
 
         writer.close()
 

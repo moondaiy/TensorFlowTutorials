@@ -65,14 +65,20 @@ O4 = tf.Variable(tf.zeros([P]))
 W5 = tf.Variable(tf.truncated_normal([P, Q], stddev=0.1))
 B5 = tf.Variable(tf.zeros([Q]))
 
-def batchnorm(Ylogits, Offset, Scale, is_test, iteration):
+def batchnorm(Ylogits, Offset, Scale, is_test, iteration, convolutional=False):
 
     exp_moving_avg = tf.train.ExponentialMovingAverage(0.998, iteration) # adding the iteration prevents from averaging across non-existing iterations
 
     bnepsilon = 1e-5
 
     #因为是类似全连接层进行的.所以 moment [0] 就可以
-    mean, variance = tf.nn.moments(Ylogits, [0])
+
+    if convolutional: #针对卷积的BN 简单理解 有多少个卷积核 就有多少个mean 和 variance
+        mean, variance = tf.nn.moments(Ylogits, [0, 1, 2])
+    else:
+        mean, variance = tf.nn.moments(Ylogits, [0])
+
+    # mean, variance = tf.nn.moments(Ylogits, [0])
 
     #apply 是实际进行计算的函数
     #更新的操作是需要额外进行的

@@ -1,4 +1,4 @@
-从caffe转换到Tensorflow的学习历程.
+从caffe转换到Tensorflow的学习历程. 使用的环境为TensorFlow-GPU = 1.8.0
 
 1.TensorFlowBasic记录了基本的Tf操作.
 

@@ -9,10 +9,10 @@ FLAGS=tf.app.flags.FLAGS
 tf.app.flags.DEFINE_integer(
     'height', 224, 'the height of image')
 
-tf.app.flags.DEFINE_boolean(
+tf.app.flags.DEFINE_integer(
     'width', 224, 'the width of image')
 
-tf.app.flags.DEFINE_boolean(
+tf.app.flags.DEFINE_integer(
     'channel', 3, 'the channel of image')
 
 tf.app.flags.DEFINE_boolean(

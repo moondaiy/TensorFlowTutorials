@@ -83,52 +83,39 @@ class Vgg16:
 
         """
         #其实可以全部改成私有变量
-        self.conv1_1 = self.conv_layer(self.__input, 3, 64, "conv1_1")
-        self.conv1_2 = self.conv_layer(self.conv1_1, 64, 64,"conv1_2")
+        self.conv1_1 = self.conv_layer(self.__input, 3, 32, "conv1_1")
+        self.conv1_2 = self.conv_layer(self.conv1_1, 32, 32,"conv1_2")
         self.pool1 = self.max_pool(self.conv1_2, 'pool1')
 
-        self.conv2_1 = self.conv_layer(self.pool1, 64, 128, "conv2_1")
-        self.conv2_2 = self.conv_layer(self.conv2_1, 128, 128, "conv2_2")
+        self.conv2_1 = self.conv_layer(self.pool1, 32, 64, "conv2_1")
+        self.conv2_2 = self.conv_layer(self.conv2_1, 64, 64, "conv2_2")
         self.pool2 = self.max_pool(self.conv2_2, 'pool2')
 
-        self.conv3_1 = self.conv_layer(self.pool2, 128, 256, "conv3_1")
-        self.conv3_2 = self.conv_layer(self.conv3_1, 256, 256, "conv3_2")
-        self.conv3_3 = self.conv_layer(self.conv3_2, 256, 256,"conv3_3")
-        self.pool3 = self.max_pool(self.conv3_3, 'pool3')
+        self.conv3_1 = self.conv_layer(self.pool2, 64, 32, "conv3_1")
+        self.conv3_2 = self.conv_layer(self.conv3_1, 32, 32, "conv3_2")
+        self.pool3 = self.max_pool(self.conv3_2, 'pool3')
 
-        self.conv4_1 = self.conv_layer(self.pool3, 256, 512, "conv4_1")
-        self.conv4_2 = self.conv_layer(self.conv4_1, 512, 512, "conv4_2")
-        self.conv4_3 = self.conv_layer(self.conv4_2, 512, 512,"conv4_3")
-        self.pool4 = self.max_pool(self.conv4_3, 'pool4')
+        # self.conv4_1 = self.conv_layer(self.pool3, 256, 512, "conv4_1")
+        # self.conv4_2 = self.conv_layer(self.conv4_1, 512, 512, "conv4_2")
+        # self.conv4_3 = self.conv_layer(self.conv4_2, 512, 512,"conv4_3")
+        # self.pool4 = self.max_pool(self.conv4_3, 'pool4')
+        #
+        # self.conv5_1 = self.conv_layer(self.pool4, 512, 512, "conv5_1")
+        # self.conv5_2 = self.conv_layer(self.conv5_1, 512, 512,"conv5_2")
+        # self.conv5_3 = self.conv_layer(self.conv5_2, 512, 512,"conv5_3")
+        # self.pool5 = self.max_pool(self.conv5_3,'pool5')
 
-        self.conv5_1 = self.conv_layer(self.pool4, 512, 512, "conv5_1")
-        self.conv5_2 = self.conv_layer(self.conv5_1, 512, 512,"conv5_2")
-        self.conv5_3 = self.conv_layer(self.conv5_2, 512, 512,"conv5_3")
-        self.pool5 = self.max_pool(self.conv5_3,'pool5')
-
-        self.fc6 = self.fc_layer(self.pool5, 32768, 4096,"fc6")
+        self.fc6 = self.fc_layer(self.pool3, 31*31*32, 128,"fc6")
         # self.fc6 = self.fc_layer(self.pool5, 32768, 512, "fc6")
 
-        assert self.fc6.get_shape().as_list()[1:] == [4096]
+        assert self.fc6.get_shape().as_list()[1:] == [128]
 
         self.relu6 = tf.nn.relu(self.fc6)
 
-        # if self.__trainModel is not None:
-
         self.relu6 = tf.cond(self.__trainModel, lambda: tf.nn.dropout(self.relu6, self.__dropOut), lambda: self.relu6)
 
-        # elif self.__trainable:
-        #
-        #     self.relu6 = tf.nn.dropout(self.relu6, self.__dropOut)
 
-        self.fc7 = self.fc_layer(self.relu6, 4096, 2048,"fc7")
-        # self.fc7 = self.fc_layer(self.relu6, 512, 64, "fc7")
-
-        self.relu7 = tf.nn.relu(self.fc7)
-
-        self.relu7 = tf.cond(self.__trainModel, lambda: tf.nn.dropout(self.relu7, self.__dropOut), lambda: self.relu7)
-
-        self.fc8 = self.fc_layer(self.relu7, 2048, 2,"fc8")
+        self.fc8 = self.fc_layer(self.relu6, 128, 2,"fc8")
         # self.fc8 = self.fc_layer(self.relu7, 64, 2, "fc8")
 
         self.prob = tf.nn.softmax(self.fc8, name="prob")
@@ -148,7 +135,7 @@ class Vgg16:
 
         crossLoss = tf.reduce_mean(crossLoss)
 
-        train_step = tf.train.GradientDescentOptimizer(1.0).minimize(crossLoss)
+        train_step = tf.train.GradientDescentOptimizer(0.01).minimize(crossLoss)
 
         return train_step, crossLoss,self.__label
 
@@ -190,7 +177,7 @@ class Vgg16:
     def get_conv_var(self, filter_size, in_channels, out_channels, name):
 
 
-        initial_value = tf.truncated_normal([filter_size, filter_size, in_channels, out_channels], 0.0, 0.001)
+        initial_value = tf.truncated_normal([filter_size, filter_size, in_channels, out_channels], 0.0, 0.1)
 
         # aa = tf.variance_scaling_initializer(scale=1.0, mode="fan_in")
         #
@@ -198,7 +185,7 @@ class Vgg16:
 
         filters = self.get_var(initial_value, name, 0, name + "_filters")   # 例如这样的形式 conv4_1_filters
 
-        initial_value = tf.truncated_normal([out_channels], .0, .001)
+        initial_value = tf.truncated_normal([out_channels], .0, .01)
 
         biases = self.get_var(initial_value, name, 1, name + "_biases")   # 例如这样的形式 conv4_1_biases
 
@@ -210,7 +197,7 @@ class Vgg16:
         #
         # initial_value = aa([in_size, out_size])
 
-        initial_value = tf.truncated_normal([in_size, out_size], 0.0, 0.001)
+        initial_value = tf.truncated_normal([in_size, out_size], 0.0, 0.1)
 
         weights = self.get_var(initial_value, name, 0, name + "_weights")
 

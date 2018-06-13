@@ -16,14 +16,16 @@ class Vgg16:
     """
     init function
     """
-    def __init__(self, trainable = FLAGS.trainable, trainModel = tf.placeholder(tf.bool), inputData = tf.placeholder("float", [None, FLAGS.height, FLAGS.width, FLAGS.channel]),inputLabel=tf.placeholder("float", [None, 2]),dropOutRatio = 0.5, vgg16_npy_path=None):
+    def __init__(self, trainable = FLAGS.trainable, trainModel = tf.placeholder(tf.bool), dropOutRatio = 0.5, vgg16_npy_path=None):
         """
-        :param trainable: True: 训练 False:测试 这是Python Bool类型 主要用于构建网络
-        :param trainModel: True: 训练 False:测试 这是Tensor Bool类型 主要用于运行时使用
+        :param trainable: True: 训练    False:测试 这是Python Bool类型 主要用于构建网络
+        :param trainModel: True: 训练   False:验证 这是Tensor Bool类型 主要用于运行时使用,可以区分在训练阶段时,是否处于验证数据集阶段
         :param inputData:  关联输入数据
         :param inputLabel: 关联输入标注
         :param dropOutRatio: dropout率
         :param vgg16_npy_path: 模型路径,训练的时候用于保险模型的生成路径.测试的时候用于加载模型路径
+        :param validData:   验证数据集
+        :param validLabel:  验证标注
 
         trainable 要和 trainModel 一致,否则会出问题
         """
@@ -35,7 +37,7 @@ class Vgg16:
             self.__modelPath = vgg16_npy_path #保存路径
             self.__data_dict = None
 
-        else: #处于测试阶段
+        else: #处于测试阶段,如果提供了权重路径 vgg16_npy_path 则加载这个路径,否则出错
             self.__dropOut = 1.0 #
 
             #加载权重
@@ -43,6 +45,7 @@ class Vgg16:
                 self.__data_dict = np.load(vgg16_npy_path, encoding="bytes").item()
                 self.__check = True
                 self.__modelPath = vgg16_npy_path
+
             else:
                 print("The %s is not invalid vgg16 npy path"%(vgg16_npy_path))
                 self.__data_dict = None
@@ -51,15 +54,22 @@ class Vgg16:
 
         #和外部数据进行关联
         self.__var_dict = {}
+
         self.__trainable = trainable    # Python bool类型
-        self.__input = inputData        # Tensor类型
-        self.__label = inputLabel       # Tensor类型
+
         self.__trainModel = trainModel  # Tensor类型
+
         self.__modelPath = vgg16_npy_path
+
+        #用于定义动态学习率
+        self.global_step = tf.Variable(0, trainable=False)
+        self.__num_epochs = 3
+        self.learnRatio = 0
+
         # self.__cost = 0
 
         #建立网络
-        self.__build()
+        # self.__build()
 
 
     def check(self):
@@ -76,14 +86,14 @@ class Vgg16:
 
         return self.__trainable
 
-    def __build(self):
+    def build(self,inputData):
 
         """
         :param
 
         """
         #其实可以全部改成私有变量
-        self.conv1_1 = self.conv_layer(self.__input, 3, 64, "conv1_1")
+        self.conv1_1 = self.conv_layer(inputData, 3, 64, "conv1_1")
         self.conv1_2 = self.conv_layer(self.conv1_1, 64, 64,"conv1_2")
         self.pool1 = self.max_pool(self.conv1_2, 'pool1')
 
@@ -106,51 +116,67 @@ class Vgg16:
         self.conv5_3 = self.conv_layer(self.conv5_2, 512, 512,"conv5_3")
         self.pool5 = self.max_pool(self.conv5_3,'pool5')
 
-        self.fc6 = self.fc_layer(self.pool5, 32768, 4096,"fc6")
-        # self.fc6 = self.fc_layer(self.pool5, 32768, 512, "fc6")
+        #这地方有时候不对.有的版本是2X开头数字
+        self.fc6 = self.fc_layer(self.pool5, 32768, 4096, "fc6")
 
         assert self.fc6.get_shape().as_list()[1:] == [4096]
 
         self.relu6 = tf.nn.relu(self.fc6)
 
-        # if self.__trainModel is not None:
 
-        self.relu6 = tf.cond(self.__trainModel, lambda: tf.nn.dropout(self.relu6, self.__dropOut), lambda: self.relu6)
+        #如果是正在训练阶段,则在构建网络的时候,需要考虑验证阶段dropout的问题
+        if self.__trainable == True:
+            self.relu6 = tf.cond(self.__trainModel, lambda: tf.nn.dropout(self.relu6, self.__dropOut), lambda: self.relu6)
 
-        # elif self.__trainable:
-        #
-        #     self.relu6 = tf.nn.dropout(self.relu6, self.__dropOut)
+
 
         self.fc7 = self.fc_layer(self.relu6, 4096, 2048,"fc7")
-        # self.fc7 = self.fc_layer(self.relu6, 512, 64, "fc7")
 
         self.relu7 = tf.nn.relu(self.fc7)
 
-        self.relu7 = tf.cond(self.__trainModel, lambda: tf.nn.dropout(self.relu7, self.__dropOut), lambda: self.relu7)
+        if self.__trainable == True:
+            self.relu7 = tf.cond(self.__trainModel, lambda: tf.nn.dropout(self.relu7, self.__dropOut), lambda: self.relu7)
 
         self.fc8 = self.fc_layer(self.relu7, 2048, 2,"fc8")
-        # self.fc8 = self.fc_layer(self.relu7, 64, 2, "fc8")
 
         self.prob = tf.nn.softmax(self.fc8, name="prob")
 
 
-    def cost_Layer(self):
+    #计算准确率
+    def calcAccuracy(self,inputLabel):
 
-        # crossLoss = tf.nn.softmax_cross_entropy_with_logits(logits=self.prob, labels=self.__label)
-        #
-        # self.__cost = tf.reduce_mean(crossLoss)
+        correctPrediction = tf.equal(tf.argmax(self.prob, 1), tf.argmax(inputLabel, 1))
 
-        return self.__cost
+        accuracy = tf.reduce_mean(tf.cast(correctPrediction, tf.float32))
 
-    def trainOptimizer(self):
+        return accuracy
 
-        crossLoss = tf.nn.softmax_cross_entropy_with_logits(logits=self.prob, labels=self.__label)
+    def dynamicLearning(self):
+
+        #动态学习率调整应该以epoch为单位,即 每个epoch(所有样本为循环遍历一次)进行调整.当然这个是不是觉得,但是如果每次训练(batch为单位),就会发现lr变化
+        #lr = initlearnRatio * decay_rate ** (global_step/__num_epochs) global_step/__num_epochs 是个小数 但是,
+        # staircase=True , 则 global_step/__num_epochs 转换为整数 这样可以做到精确控制没隔多少个batch学习率 则会进行一定指数级的衰减
+
+        self.learnRatio = tf.train.exponential_decay(1.0, self.global_step, decay_steps = self.__num_epochs, decay_rate=0.1, staircase=True)
+
+        return self.learnRatio
+
+    def trainOptimizer(self, inputLabel):
+
+        """
+        :param inputLabel:  训练时候用到的标注数据
+        :return:
+        """
+        crossLoss = tf.nn.softmax_cross_entropy_with_logits(logits=self.fc8, labels=inputLabel)
 
         crossLoss = tf.reduce_mean(crossLoss)
 
-        train_step = tf.train.GradientDescentOptimizer(1.0).minimize(crossLoss)
+        #根据需要选择自己的学习率
+        lr = self.dynamicLearning()
 
-        return train_step, crossLoss,self.__label
+        train_step = tf.train.GradientDescentOptimizer(lr).minimize(crossLoss, global_step=self.global_step)
+
+        return train_step, crossLoss,inputLabel
 
     #生成一个average pool层
     def avg_pool(self, bottom, name):
@@ -192,10 +218,6 @@ class Vgg16:
 
         initial_value = tf.truncated_normal([filter_size, filter_size, in_channels, out_channels], 0.0, 0.001)
 
-        # aa = tf.variance_scaling_initializer(scale=1.0, mode="fan_in")
-        #
-        # initial_value = aa([filter_size, filter_size, in_channels, out_channels])
-
         filters = self.get_var(initial_value, name, 0, name + "_filters")   # 例如这样的形式 conv4_1_filters
 
         initial_value = tf.truncated_normal([out_channels], .0, .001)
@@ -223,14 +245,21 @@ class Vgg16:
     def get_var(self, initial_value, name, idx, var_name):
 
         if self.__data_dict is not None and name in self.__data_dict:
+
             value = self.__data_dict[name][idx]
+
         else:
             value = initial_value
 
         if self.__trainable:
             var = tf.Variable(value, name=var_name)
         else:
-            var = tf.constant(value, dtype=tf.float32, name=var_name)
+
+            # var = tf.constant(value, dtype=tf.float32, name=var_name)
+
+            #如果要进行fine tuning 则不能使用tf.constant,否则在构建优化器的时候,会出现错误,因为所有变量军事const 没有可以训练的various.
+            #所以可以控制具体某个变量是否需要重新训练
+            var = tf.Variable(value, name=var_name)
 
         self.__var_dict[(name, idx)] = var
 

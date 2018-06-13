@@ -5,9 +5,19 @@ from Utils.create_records import read_and_decode
 import VGG16 as VGG16
 from Config import FLAGS
 
+tf.app.flags.DEFINE_string('my_name', 'Robert', "description1")
+tf.app.flags.DEFINE_integer('int_name', 10, "description2")
+tf.app.flags.DEFINE_boolean('bool_name', False, "description3")
 
+appFlags = tf.app.flags.FLAGS
 
 if __name__ == '__main__':
+
+    #在不同py文件中使用了tf.app.flags.DEFINE_XX函数,实际上是一个全局变量,可以整合,并保存在一个实例中,可以被不同的引用进行引用
+    #在其他文件中也定义了tf.app.flags.DEFINE_XX 但是最终都会在一个变量中被使用
+
+    # print(appFlags.my_name)
+    # print(appFlags.height)
 
     trainModel = tf.placeholder(bool)
 

@@ -29,6 +29,8 @@ class Vgg16:
 
         trainable 要和 trainModel 一致,否则会出问题
         """
+        #同一个tf.app.flags.FLAGS 实例,不同py文件进行进行定义,但是都被放在同一个实例中
+        #print(FLAGS)
 
         if trainable == True: #如果当前是训练状态
 

@@ -89,10 +89,10 @@ def batchnorm(Ylogits, Offset, Scale, is_test, iteration, convolutional=False):
 
     #exp_moving_avg.average(mean) 只是根据key mean 得到 数值
     m = tf.cond(is_test, lambda: exp_moving_avg.average(mean), lambda: mean)
-
     v = tf.cond(is_test, lambda: exp_moving_avg.average(variance), lambda: variance)
 
     Ybn = tf.nn.batch_normalization(Ylogits, m, v, Offset, Scale, bnepsilon)
+
 
     return Ybn, update_moving_averages
 

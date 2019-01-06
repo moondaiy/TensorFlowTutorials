@@ -1,21 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="67640e86-f57a-4041-a4fa-a82edd8fe37a" name="Default" comment="" />
+    <list default="true" id="67640e86-f57a-4041-a4fa-a82edd8fe37a" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/TensorFlowTutorials.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TensorFlowTutorials.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModelPractice/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/ModelPractice/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModelPractice/Utils/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/ModelPractice/Utils/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModelPractice/Utils/create_records.py" beforeDir="false" afterPath="$PROJECT_DIR$/ModelPractice/Utils/create_records.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModelPractice/VGG16/Config.py" beforeDir="false" afterPath="$PROJECT_DIR$/ModelPractice/VGG16/Config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModelPractice/VGG16/VGG16.py" beforeDir="false" afterPath="$PROJECT_DIR$/ModelPractice/VGG16/VGG16.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModelPractice/VGG16/VGG7.py" beforeDir="false" afterPath="$PROJECT_DIR$/ModelPractice/VGG16/VGG7.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModelPractice/VGG16/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/ModelPractice/VGG16/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ModelPractice/VGG16/trainVGG16.py" beforeDir="false" afterPath="$PROJECT_DIR$/ModelPractice/VGG16/trainVGG16.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/1.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/1.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/ExponentialMovingAverage.py" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/ExponentialMovingAverage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/assign.py" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/assign.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/batchNormilazation.py" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/batchNormilazation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/batchNormilazation2.py" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/batchNormilazation2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/caffe_classes.py" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/caffe_classes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/convNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/convNet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/demo1.png" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/demo1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/dog.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/dog.jpeg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/extract-param-from-ckpt.py" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/extract-param-from-ckpt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/loadParameterFromNPY.py" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/loadParameterFromNPY.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/mnist.py" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/mnist.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/mnist_dropout.py" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/mnist_dropout.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/placeHolder.py" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/placeHolder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/reduceTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/reduceTest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/rnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/rnn.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/scope.py" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/scope.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/simpleNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/simpleNet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/tensorBoard.py" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/tensorBoard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/vgg19_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/vgg19_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/while_loop.py" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/while_loop.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/优化器.md" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/优化器.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TensorFlowBasic/保存和回复网络.py" beforeDir="false" afterPath="$PROJECT_DIR$/TensorFlowBasic/保存和回复网络.py" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+  <component name="FileEditorManager">
+    <leaf />
   </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="204" />
+    <option name="y" value="44" />
+    <option name="width" value="1400" />
+    <option name="height" value="960" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="TensorFlowTutorials" type="b2602c69:ProjectViewProjectNode" />
+              <item name="TensorFlowTutorials" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
+      <changelist id="67640e86-f57a-4041-a4fa-a82edd8fe37a" name="Default" comment="" />
       <created>1527681901002</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -23,8 +118,44 @@
     </task>
     <servers />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager />
-    <watches-manager />
+  <component name="ToolWindowManager">
+    <frame x="204" y="44" width="1400" height="960" extended-state="0" />
+    <layout>
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" visible="true" weight="0.46401986" />
+      <window_info anchor="bottom" id="Python Console" order="7" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2533137" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="right" id="SciView" order="3" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/TensorFlowBasic/batchNormilazation.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
   </component>
 </project>

@@ -131,11 +131,11 @@ class Vgg16:
 
     def trainOptimizer(self):
 
-        crossLoss = tf.nn.softmax_cross_entropy_with_logits(logits=self.prob, labels=self.__label)
+        crossLoss = tf.nn.softmax_cross_entropy_with_logits(logits=self.fc8, labels=self.__label)
 
         crossLoss = tf.reduce_mean(crossLoss)
 
-        train_step = tf.train.GradientDescentOptimizer(0.01).minimize(crossLoss)
+        train_step = tf.train.GradientDescentOptimizer(0.002).minimize(crossLoss)
 
         return train_step, crossLoss,self.__label
 

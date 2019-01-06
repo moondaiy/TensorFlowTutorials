@@ -105,17 +105,17 @@ class Vgg16:
         # self.conv5_3 = self.conv_layer(self.conv5_2, 512, 512,"conv5_3")
         # self.pool5 = self.max_pool(self.conv5_3,'pool5')
 
-        self.fc6 = self.fc_layer(self.pool3, 31*31*32, 128,"fc6")
+        self.fc6 = self.fc_layer(self.pool3, 31*31*32, 64,"fc6")
         # self.fc6 = self.fc_layer(self.pool5, 32768, 512, "fc6")
 
-        assert self.fc6.get_shape().as_list()[1:] == [128]
+        assert self.fc6.get_shape().as_list()[1:] == [64]
 
         self.relu6 = tf.nn.relu(self.fc6)
 
         self.relu6 = tf.cond(self.__trainModel, lambda: tf.nn.dropout(self.relu6, self.__dropOut), lambda: self.relu6)
 
 
-        self.fc8 = self.fc_layer(self.relu6, 128, 2,"fc8")
+        self.fc8 = self.fc_layer(self.relu6, 64, 2,"fc8")
         # self.fc8 = self.fc_layer(self.relu7, 64, 2, "fc8")
 
         self.prob = tf.nn.softmax(self.fc8, name="prob")
@@ -131,11 +131,12 @@ class Vgg16:
 
     def trainOptimizer(self):
 
-        crossLoss = tf.nn.softmax_cross_entropy_with_logits(logits=self.fc8, labels=self.__label)
+        crossLoss = tf.nn.softmax_cross_entropy_with_logits(logits=self.prob, labels=self.__label)
 
         crossLoss = tf.reduce_mean(crossLoss)
 
-        train_step = tf.train.GradientDescentOptimizer(0.002).minimize(crossLoss)
+        train_step = tf.train.GradientDescentOptimizer(1e-4).minimize(crossLoss)
+        # train_step = tf.train.AdamOptimizer(0.001).minimize(crossLoss)
 
         return train_step, crossLoss,self.__label
 
